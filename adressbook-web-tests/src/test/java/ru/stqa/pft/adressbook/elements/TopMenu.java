@@ -19,4 +19,9 @@ public class TopMenu extends Page {
   @FindBy(css = "[href='group.php']")
   public WebElement groups;
 
+  @FindBy(css = "[href='edit.php']")
+  public WebElement addContact;
+
+  @FindBy(css = "[href='./']")
+  public WebElement home;
 }

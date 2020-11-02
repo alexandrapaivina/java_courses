@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class PageGroups extends Page{
+public class PageGroups extends Page {
   public PageGroups(WebDriver driver) {
     super(driver);
     PageFactory.initElements(driver, this);

@@ -18,6 +18,9 @@ public class TestBase {
     tlApp.set(app);
 
     Runtime.getRuntime().addShutdownHook(
-            new Thread(() -> { app.quit(); app = null; }));
+            new Thread(() -> {
+              app.quit();
+              app = null;
+            }));
   }
 }
