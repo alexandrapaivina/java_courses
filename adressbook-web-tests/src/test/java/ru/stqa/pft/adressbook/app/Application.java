@@ -67,6 +67,7 @@ public class Application {
     pageNewGroup.groupName.sendKeys(group.getName());
     pageNewGroup.groupHeader.sendKeys(group.getHeader());
     pageNewGroup.groupFooter.sendKeys(group.getFooter());
+    pageNewGroup.create.click();
   }
 
   //Генерация уникальной группы
