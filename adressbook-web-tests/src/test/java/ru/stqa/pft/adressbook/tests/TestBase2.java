@@ -3,7 +3,7 @@ package ru.stqa.pft.adressbook.tests;
 import org.testng.annotations.BeforeClass;
 import ru.stqa.pft.adressbook.app.Application;
 
-public class TestBase {
+public class TestBase2 {
   public static ThreadLocal<Application> tlApp = new ThreadLocal<>();
   public Application app;
 

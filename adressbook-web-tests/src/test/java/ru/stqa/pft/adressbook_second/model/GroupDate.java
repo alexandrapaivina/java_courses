@@ -1,4 +1,4 @@
-package ru.stqa.pft.adressbook_second;
+package ru.stqa.pft.adressbook_second.model;
 
 public class GroupDate {
   private final String name;

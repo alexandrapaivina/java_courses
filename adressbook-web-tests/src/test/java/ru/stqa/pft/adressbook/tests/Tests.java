@@ -8,7 +8,7 @@ import ru.stqa.pft.adressbook.model.Group;
 import org.testng.annotations.Test;
 import ru.stqa.pft.adressbook.model.User;
 
-public class Tests extends TestBase {
+public class Tests extends TestBase2 {
 
   @BeforeMethod
   public void preconditions() {
