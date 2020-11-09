@@ -3,6 +3,10 @@ package ru.stqa.pft.adressbook_second.appmanager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.BrowserType;
+import org.openqa.selenium.safari.SafariDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.stqa.pft.adressbook_second.model.ContactDate;
 import ru.stqa.pft.adressbook_second.model.GroupDate;
 
@@ -15,10 +19,20 @@ public class ApplicationManager {
   private NavigationHelper navigationHelper;
   private GroupHelper groupHelper;
   private ContactHelper contactHelper;
+  String browser;
 
-  public void init() {
-    System.setProperty("webdriver.chrome.driver", "/Users/dev/AuxiliaryExecutables/chromedriver");
-    wd = new ChromeDriver();
+  public ApplicationManager(String browser) {
+    this.browser = browser;
+  }
+
+  public void init() throws InterruptedException {
+    if (browser.equals(BrowserType.CHROME)) {
+      wd = new ChromeDriver();
+    } else if (browser.equals(BrowserType.FIREFOX)) {
+      wd = new FirefoxDriver();
+    } else if (browser.equals(BrowserType.SAFARI)) {
+      wd = new SafariDriver();
+    }
     wd.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     wd.get("http://localhost/addressbook/index.php");
     sessionHelper = new SessionHelper(wd);
@@ -26,6 +40,7 @@ public class ApplicationManager {
     navigationHelper = new NavigationHelper(wd);
     contactHelper = new ContactHelper(wd);
     sessionHelper.login("admin", "secret");
+    Thread.sleep(2000);
   }
 
   public void stop() {
