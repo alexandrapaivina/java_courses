@@ -44,7 +44,14 @@ public class GroupHelper extends HelperBase{
     click(By.name("delete"));
   }
 
-  public void acceptAllertDeleteGroup() {
-    wd.switchTo().alert().accept();
+  public void createGroup(GroupDate group) {
+    initGroupCreation();
+    fillGroupForm(group);
+    submitGroupCreation();
+    returnToGroupPage();
+  }
+
+  public boolean isThereGroup() {
+    return isElementPresent(By.name("selected[]"));
   }
 }

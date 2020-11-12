@@ -4,7 +4,6 @@ public class GroupDate {
   private final String name;
   private final String header;
   private final String footer;
-
   public GroupDate(String name, String header, String footer) {
     this.name = name;
     this.header = header;
