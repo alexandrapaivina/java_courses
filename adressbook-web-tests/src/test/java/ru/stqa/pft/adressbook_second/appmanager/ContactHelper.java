@@ -5,6 +5,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import org.testng.FileAssert;
 import ru.stqa.pft.adressbook_second.model.ContactDate;
 
 public class ContactHelper extends HelperBase {
@@ -65,5 +66,9 @@ public class ContactHelper extends HelperBase {
 
   public boolean isThereContact() {
     return isElementPresent(By.name("selected[]"));
+  }
+
+  public int getContactCount() {
+    return wd.findElements(By.name("selected[]")).size();
   }
 }
