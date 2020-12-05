@@ -1,13 +1,51 @@
 package ru.stqa.pft.adressbook_second.model;
 
+import java.util.Objects;
+
 public class GroupDate {
+
+  private int id;
   private final String name;
   private final String header;
   private final String footer;
+
+  @Override
+  public String toString() {
+    return "GroupDate{" +
+            "name='" + name + '\'' +
+            ", id='" + id + '\'' +
+            '}';
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public GroupDate(int id, String name, String header, String footer) {
+    this.name = name;
+    this.header = header;
+    this.footer = footer;
+    this.id = id;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    GroupDate groupDate = (GroupDate) o;
+    return Objects.equals(name, groupDate.name);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(name);
+  }
+
   public GroupDate(String name, String header, String footer) {
     this.name = name;
     this.header = header;
     this.footer = footer;
+    this.id = Integer.MAX_VALUE;
   }
 
   public String getName() {
@@ -21,4 +59,9 @@ public class GroupDate {
   public String getFooter() {
     return footer;
   }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
 }

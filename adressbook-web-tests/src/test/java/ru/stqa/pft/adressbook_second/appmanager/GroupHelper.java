@@ -2,9 +2,13 @@ package ru.stqa.pft.adressbook_second.appmanager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import ru.stqa.pft.adressbook_second.model.GroupDate;
 
-public class GroupHelper extends HelperBase{
+import java.util.ArrayList;
+import java.util.List;
+
+public class GroupHelper extends HelperBase {
 
   public GroupHelper(WebDriver wd) {
     super(wd);
@@ -28,11 +32,11 @@ public class GroupHelper extends HelperBase{
     click(By.name("new"));
   }
 
-  public void selectGroup() {
-    click(By.name("selected[]"));
+  public void selectGroup(int index) {
+    wd.findElements(By.name("selected[]")).get(index).click();
   }
 
-  public void initModificayion() {
+  public void initModification() {
     click(By.name("edit"));
   }
 
@@ -57,5 +61,17 @@ public class GroupHelper extends HelperBase{
 
   public int getGroupCount() {
     return wd.findElements(By.name("selected[]")).size();
+  }
+
+  public List<GroupDate> getGroupList() {
+    List<GroupDate> groups = new ArrayList<GroupDate>();
+    List<WebElement> elements = wd.findElements(By.cssSelector("span.group"));
+    for (WebElement element : elements) {
+      String name = element.getText();
+      int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
+      GroupDate group = new GroupDate(id, name, null, null);
+      groups.add(group);
+    }
+    return groups;
   }
 }

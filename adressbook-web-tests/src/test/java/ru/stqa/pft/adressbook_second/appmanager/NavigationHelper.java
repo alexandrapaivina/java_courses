@@ -10,7 +10,7 @@ public class NavigationHelper extends HelperBase {
   }
 
   public void gotoHomePage() {
-    if (isElementPresent(By.id("maintable"))){
+    if (isElementPresent(By.id("maintable"))) {
       return;
     }
     click(By.cssSelector("a[href='./']"));

@@ -4,16 +4,29 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.stqa.pft.adressbook_second.model.ContactDate;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 public class ContactCreateTests extends TestBase {
 
   @Test
-  public void testContactCreation() {
+  public void testContactCreation() throws InterruptedException {
     app.getNavigationHelper().gotoHomePage();
-    int before = app.getContactHelper().getContactCount();
-    app.getContactHelper().createContact(new ContactDate("Test name", "Middle name",
-            "Last name", "Krasnodar", "89998887766", "test@test.ru","nameGroup12"));
+    List<ContactDate> before = app.getContactHelper().getContactList();
+    ContactDate contact = new ContactDate("Test name", "Middle name",
+            "Last name", "Krasnodar", "89998887766", "test@test.ru", "nameGroup12");
+    app.getContactHelper().createContact(contact);
     app.getNavigationHelper().gotoHomePage();
-    int after = app.getContactHelper().getContactCount();
-    Assert.assertEquals(before + 1 ,after );
+    Thread.sleep(1000);
+    List<ContactDate> after = app.getContactHelper().getContactList();
+    Assert.assertEquals(before.size() + 1, after.size());
+
+    before.add(contact);
+    Comparator<ContactDate> contactDateComparatorLambda =
+            (c1, c2) -> c1.getFirstname().compareTo(c2.getFirstname());
+    Collections.sort(before, contactDateComparatorLambda);
+    Collections.sort(after, contactDateComparatorLambda);
+    Assert.assertEquals(before, after);
   }
 }

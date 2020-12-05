@@ -4,23 +4,28 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.stqa.pft.adressbook_second.model.ContactDate;
 
+import java.util.List;
+
 public class ContactDeleteTests extends TestBase {
 
   @Test
-  public void testContactDelete() {
+  public void testContactDelete() throws InterruptedException {
     app.getNavigationHelper().gotoHomePage();
-    int before = app.getContactHelper().getContactCount();
-    if(! app.getContactHelper().isThereContact()){
+    List<ContactDate> before = app.getContactHelper().getContactList();
+    if (!app.getContactHelper().isThereContact()) {
       app.getContactHelper().createContact(new ContactDate("Test name", "Middle name",
-              "Last name", "Krasnodar", "89998887766", "test@test.ru","nameGroup12"));
+              "Last name", "Krasnodar", "89998887766", "test@test.ru", "nameGroup12"));
     }
     app.getNavigationHelper().gotoHomePage();
-    app.getContactHelper().selectContact();
+    app.getContactHelper().selectContact(before.size() - 1);
     app.getContactHelper().initDeleteContact();
     app.getContactHelper().acceptAllertDeleteContact();
     app.getNavigationHelper().gotoHomePage();
-    int after = app.getContactHelper().getContactCount();
-    System.out.println(before + "BBBBBBBBBBBBBBBBBBB" + after);
-    Assert.assertEquals(before - 1 ,after );
+    Thread.sleep(1000);
+    List<ContactDate> after = app.getContactHelper().getContactList();
+    Assert.assertEquals(before.size() - 1, after.size());
+
+    before.remove(before.size() - 1);
+    Assert.assertEquals(after, before);
   }
 }
