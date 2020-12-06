@@ -12,14 +12,13 @@ public class ContactCreateTests extends TestBase {
 
   @Test
   public void testContactCreation() throws InterruptedException {
-    app.getNavigationHelper().gotoHomePage();
-    List<ContactDate> before = app.getContactHelper().getContactList();
+    app.goTo().homePage();
+    List<ContactDate> before = app.contact().list();
     ContactDate contact = new ContactDate("Test name", "Middle name",
             "Last name", "Krasnodar", "89998887766", "test@test.ru", "nameGroup12");
-    app.getContactHelper().createContact(contact);
-    app.getNavigationHelper().gotoHomePage();
+    app.contact().create(contact);
     Thread.sleep(1000);
-    List<ContactDate> after = app.getContactHelper().getContactList();
+    List<ContactDate> after = app.contact().list();
     Assert.assertEquals(before.size() + 1, after.size());
 
     before.add(contact);

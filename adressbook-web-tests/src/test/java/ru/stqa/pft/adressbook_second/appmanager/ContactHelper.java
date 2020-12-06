@@ -16,6 +16,34 @@ public class ContactHelper extends HelperBase {
     super(wd);
   }
 
+  ///Основные действия с группами
+  public void create(ContactDate contactDate) {
+    initContactCreation();
+    fillContactForm(new ContactDate("Test name", "Middle name",
+            "Last name", "Krasnodar", "89998887766", "test@test.ru", "nameGroup12"), true);
+    submitContactCreation();
+    returnToContactPage();
+  }
+
+  public void modify(ContactDate contact) {
+    initContactEdit();
+    fillContactForm(contact,false);
+    initContactUpdate();
+    returnToContactPage();
+  }
+
+  public void delete(int index) {
+    selectContact(index);
+    initDeleteContact();
+    acceptAllertDeleteContact();
+    returnToContactPage();
+  }
+
+  ///Вспомогательные функции
+  public void returnToContactPage(){
+    click(By.linkText("home"));
+  }
+
   public void fillContactForm(ContactDate contactDate, boolean creation) {
     type(By.name("firstname"), contactDate.getFirstname());
     type(By.name("middlename"), contactDate.getMiddlename());
@@ -59,12 +87,6 @@ public class ContactHelper extends HelperBase {
     click(By.name("update"));
   }
 
-  public void createContact(ContactDate contactDate) {
-    initContactCreation();
-    fillContactForm(new ContactDate("Test name", "Middle name",
-            "Last name", "Krasnodar", "89998887766", "test@test.ru", "nameGroup12"), true);
-    submitContactCreation();
-  }
 
   public boolean isThereContact() {
     return isElementPresent(By.name("selected[]"));
@@ -74,7 +96,7 @@ public class ContactHelper extends HelperBase {
     return wd.findElements(By.name("selected[]")).size();
   }
 
-  public List<ContactDate> getContactList() {
+  public List<ContactDate> list() {
     List<ContactDate> contacts = new ArrayList<>();
     List<WebElement> elements = wd.findElements(By.cssSelector("tr[name = 'entry']"));
     for (WebElement element : elements) {

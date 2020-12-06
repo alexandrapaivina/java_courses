@@ -1,6 +1,7 @@
 package ru.stqa.pft.adressbook_second.tests;
 
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.adressbook_second.model.ContactDate;
 
@@ -10,23 +11,24 @@ import java.util.List;
 
 public class ContactModificationTests extends TestBase {
 
+  @BeforeMethod
+  public void ensurePreconditions(){
+    app.goTo().homePage();
+    if(app.contact().list().size() == 0){
+      app.contact().create(new ContactDate("Test name", "Middle name",
+              "Last name", "Krasnodar", "89998887766", "test@test.ru","nameGroup12"));
+      app.goTo().homePage();
+    }
+  }
+
   @Test
   public void testContactModification() throws InterruptedException {
-    app.getNavigationHelper().gotoHomePage();
-    List<ContactDate> before = app.getContactHelper().getContactList();
-    if(! app.getContactHelper().isThereContact()){
-      app.getContactHelper().createContact(new ContactDate("Test name", "Middle name",
-              "Last name", "Krasnodar", "89998887766", "test@test.ru","nameGroup12"));
-    }
-    app.getNavigationHelper().gotoHomePage();
-    app.getContactHelper().initContactEdit();
 
+    List<ContactDate> before = app.contact().list();
     ContactDate contact = new ContactDate("Test77","Last77");
-    app.getContactHelper().fillContactForm(contact,false);
-    app.getContactHelper().initContactUpdate();
-    app.getNavigationHelper().gotoHomePage();
+    app.contact().modify(contact);
     Thread.sleep(1000);
-    List<ContactDate> after = app.getContactHelper().getContactList();
+    List<ContactDate> after = app.contact().list();
     Assert.assertEquals(before.size(), after.size());
 
     before.remove(0);
@@ -37,5 +39,4 @@ public class ContactModificationTests extends TestBase {
     Collections.sort(after, contactDateComparatorLambda);
     Assert.assertEquals(before, after);
   }
-
 }
