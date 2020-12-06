@@ -13,14 +13,6 @@ public class ContactDate {
   private String group;
 
   @Override
-  public String toString() {
-    return "ContactDate{" +
-            "firstname='" + firstname + '\'' +
-            ", lastname='" + lastname + '\'' +
-            '}';
-  }
-
-  @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
@@ -32,6 +24,14 @@ public class ContactDate {
   @Override
   public int hashCode() {
     return Objects.hash(firstname, lastname);
+  }
+
+  @Override
+  public String toString() {
+    return "ContactDate{" +
+            "firstname='" + firstname + '\'' +
+            ", lastname='" + lastname + '\'' +
+            '}';
   }
 
   public String getFirstname() {

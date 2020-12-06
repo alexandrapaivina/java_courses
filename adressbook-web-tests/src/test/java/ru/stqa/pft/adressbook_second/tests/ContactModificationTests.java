@@ -23,7 +23,6 @@ public class ContactModificationTests extends TestBase {
 
   @Test
   public void testContactModification() throws InterruptedException {
-
     List<ContactDate> before = app.contact().list();
     ContactDate contact = new ContactDate().withFirstname("Test77").withLastname("Last77");
     app.contact().modify(contact);

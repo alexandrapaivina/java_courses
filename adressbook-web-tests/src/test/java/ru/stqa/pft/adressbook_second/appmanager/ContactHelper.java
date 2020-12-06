@@ -8,7 +8,9 @@ import org.testng.Assert;
 import ru.stqa.pft.adressbook_second.model.ContactDate;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ContactHelper extends HelperBase {
 
@@ -99,7 +101,6 @@ public class ContactHelper extends HelperBase {
     List<ContactDate> contacts = new ArrayList<>();
     List<WebElement> elements = wd.findElements(By.cssSelector("tr[name = 'entry']"));
     for (WebElement element : elements) {
-      //int id = Integer.parseInt(element.findElement(By.cssSelector("input")).getAttribute("value"));
       String firstName = element.findElement(By.cssSelector("td:nth-of-type(3)")).getText();
       String lastName = element.findElement(By.cssSelector("td:nth-of-type(2)")).getText();
       ContactDate contact = new ContactDate().withFirstname(firstName).withLastname(lastName);
