@@ -4,24 +4,13 @@ import java.util.Objects;
 
 public class ContactDate {
 
-  private final String firstname;
-  private final String middlename;
-  private final String lastname;
-  private final String adress;
-  private final String mobilephone;
-  private final String email;
-  private final String group;
-
-  public ContactDate(String firstname, String middlename, String lastname,
-                     String adress, String mobilephone, String email, String group) {
-    this.firstname = firstname;
-    this.middlename = middlename;
-    this.lastname = lastname;
-    this.adress = adress;
-    this.mobilephone = mobilephone;
-    this.email = email;
-    this.group = group;
-  }
+  private String firstname;
+  private String middlename;
+  private String lastname;
+  private String adress;
+  private String mobilephone;
+  private String email;
+  private String group;
 
   @Override
   public String toString() {
@@ -43,16 +32,6 @@ public class ContactDate {
   @Override
   public int hashCode() {
     return Objects.hash(firstname, lastname);
-  }
-
-  public ContactDate(String firstname, String lastname) {
-    this.firstname = firstname;
-    this.middlename = null;
-    this.lastname = lastname;
-    this.adress = null;
-    this.mobilephone = null;
-    this.email = null;
-    this.group = null;
   }
 
   public String getFirstname() {
@@ -81,5 +60,40 @@ public class ContactDate {
 
   public String getGroup() {
     return group;
+  }
+
+  public ContactDate withFirstname(String firstname) {
+    this.firstname = firstname;
+    return this;
+  }
+
+  public ContactDate withMiddlename(String middlename) {
+    this.middlename = middlename;
+    return this;
+  }
+
+  public ContactDate withLastname(String lastname) {
+    this.lastname = lastname;
+    return this;
+  }
+
+  public ContactDate withAdress(String adress) {
+    this.adress = adress;
+    return this;
+  }
+
+  public ContactDate withMobilephone(String mobilephone) {
+    this.mobilephone = mobilephone;
+    return this;
+  }
+
+  public ContactDate withEmail(String email) {
+    this.email = email;
+    return this;
+  }
+
+  public ContactDate withGroup(String group) {
+    this.group = group;
+    return this;
   }
 }

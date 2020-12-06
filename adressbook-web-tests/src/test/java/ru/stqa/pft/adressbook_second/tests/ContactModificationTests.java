@@ -15,8 +15,8 @@ public class ContactModificationTests extends TestBase {
   public void ensurePreconditions(){
     app.goTo().homePage();
     if(app.contact().list().size() == 0){
-      app.contact().create(new ContactDate("Test name", "Middle name",
-              "Last name", "Krasnodar", "89998887766", "test@test.ru","nameGroup12"));
+      app.contact().create(new ContactDate().withFirstname("Test name").withMiddlename("Middle name").withLastname("Last name").withAdress("Krasnodar")
+              .withMobilephone("89998887766").withEmail("test@test.ru").withGroup("nameGroup12"));
       app.goTo().homePage();
     }
   }
@@ -25,7 +25,7 @@ public class ContactModificationTests extends TestBase {
   public void testContactModification() throws InterruptedException {
 
     List<ContactDate> before = app.contact().list();
-    ContactDate contact = new ContactDate("Test77","Last77");
+    ContactDate contact = new ContactDate().withFirstname("Test77").withLastname("Last77");
     app.contact().modify(contact);
     Thread.sleep(1000);
     List<ContactDate> after = app.contact().list();

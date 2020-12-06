@@ -17,10 +17,9 @@ public class ContactHelper extends HelperBase {
   }
 
   ///Основные действия с группами
-  public void create(ContactDate contactDate) {
+  public void create(ContactDate contact) {
     initContactCreation();
-    fillContactForm(new ContactDate("Test name", "Middle name",
-            "Last name", "Krasnodar", "89998887766", "test@test.ru", "nameGroup12"), true);
+    fillContactForm(contact, true);
     submitContactCreation();
     returnToContactPage();
   }
@@ -103,7 +102,7 @@ public class ContactHelper extends HelperBase {
       //int id = Integer.parseInt(element.findElement(By.cssSelector("input")).getAttribute("value"));
       String firstName = element.findElement(By.cssSelector("td:nth-of-type(3)")).getText();
       String lastName = element.findElement(By.cssSelector("td:nth-of-type(2)")).getText();
-      ContactDate contact = new ContactDate(firstName, lastName);
+      ContactDate contact = new ContactDate().withFirstname(firstName).withLastname(lastName);
       contacts.add(contact);
     }
     return contacts;
