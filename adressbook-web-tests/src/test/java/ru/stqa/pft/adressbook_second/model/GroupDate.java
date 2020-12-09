@@ -57,12 +57,12 @@ public class GroupDate {
     return this;
   }
 
-  public GroupDate withId (int id) {
+  public GroupDate withId(int id) {
     this.id = id;
     return this;
   }
 
-  public GroupDate withFooter (String footer) {
+  public GroupDate withFooter(String footer) {
     this.footer = footer;
     return this;
   }

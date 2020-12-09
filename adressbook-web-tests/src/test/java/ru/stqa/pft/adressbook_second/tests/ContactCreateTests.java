@@ -3,31 +3,32 @@ package ru.stqa.pft.adressbook_second.tests;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.stqa.pft.adressbook_second.model.ContactDate;
+import ru.stqa.pft.adressbook_second.model.Contacts;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.ToIntFunction;
+
+import static java.util.Collections.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ContactCreateTests extends TestBase {
 
   @Test
   public void testContactCreation() throws InterruptedException {
     app.goTo().homePage();
-    List<ContactDate> before = app.contact().list();
-    System.out.println("ДОООООО"+before.size());
+    Contacts before = app.contact().all();
     ContactDate contact = new ContactDate().withFirstname("Test nameHHH").withMiddlename("Middle name").withLastname("Last name")
             .withAdress("Krasnodar").withEmail("89998887766").withEmail("test@test.ru").withGroup("nameGroup12");
     app.contact().create(contact);
     app.goTo().homePage();
-    Thread.sleep(2000);
-    List<ContactDate> after = app.contact().list();
-    Assert.assertEquals(before.size() + 1, after.size());
-
-    before.add(contact);
-    Comparator<ContactDate> contactDateComparatorLambda =
-            (c1, c2) -> c1.getFirstname().compareTo(c2.getFirstname());
-    Collections.sort(before, contactDateComparatorLambda);
-    Collections.sort(after, contactDateComparatorLambda);
-    Assert.assertEquals(before, after);
+    Thread.sleep(1000);
+    Contacts after = app.contact().all();
+    assertThat(after, equalTo(before.withAdded(
+            contact.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
+    assertThat(after.size(), equalTo(before.size() + 1));
   }
 }
