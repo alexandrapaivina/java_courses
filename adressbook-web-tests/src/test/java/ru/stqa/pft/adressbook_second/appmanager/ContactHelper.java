@@ -1,7 +1,5 @@
 package ru.stqa.pft.adressbook_second.appmanager;
 
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.MatcherAssert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,10 +8,7 @@ import org.testng.Assert;
 import ru.stqa.pft.adressbook_second.model.ContactDate;
 import ru.stqa.pft.adressbook_second.model.Contacts;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static org.openqa.selenium.By.name;
 
@@ -32,7 +27,7 @@ public class ContactHelper extends HelperBase {
   }
 
   public void modify(ContactDate contact) {
-    initContactEdit(contact.getId());
+    initContactModificationById(contact.getId());
     fillContactForm(contact, false);
     initContactUpdate();
     returnToContactPage();
@@ -51,12 +46,14 @@ public class ContactHelper extends HelperBase {
   }
 
   public void fillContactForm(ContactDate contactDate, boolean creation) {
-    type(name("firstname"), contactDate.getFirstname());
-    type(name("middlename"), contactDate.getMiddlename());
-    type(name("lastname"), contactDate.getLastname());
+    type(name("firstname"), contactDate.getFirstName());
+    type(name("middlename"), contactDate.getMiddleName());
+    type(name("lastname"), contactDate.getLastName());
     type(name("address"), contactDate.getAdress());
-    type(name("mobile"), contactDate.getMobilephone());
+    type(name("mobile"), contactDate.getMobilePhone());
     type(name("email"), contactDate.getEmail());
+    type(name("work"), contactDate.getWorkPhone());
+    type(name("home"), contactDate.getHomePhone());
 
     if (creation) {
       new Select(wd.findElement(name("new_group"))).selectByVisibleText(contactDate.getGroup());
@@ -83,14 +80,9 @@ public class ContactHelper extends HelperBase {
     wd.switchTo().alert().accept();
   }
 
-  public void initContactEdit(int index) {
-    click(By.cssSelector("[href = 'edit.php?id=" + index + "']"));
-  }
-
   public void initContactUpdate() {
     click(name("update"));
   }
-
 
   public boolean isThereContact() {
     return isElementPresent(name("selected[]"));
@@ -107,9 +99,36 @@ public class ContactHelper extends HelperBase {
       int id = Integer.parseInt(element.findElement(By.cssSelector("input")).getAttribute("value"));
       String firstName = element.findElement(By.cssSelector("td:nth-of-type(3)")).getText();
       String lastName = element.findElement(By.cssSelector("td:nth-of-type(2)")).getText();
+      String[] phones = element.findElement(By.cssSelector("td:nth-of-type(6)")).getText().split("\n");
       ContactDate contact = new ContactDate().withId(id).withFirstname(firstName).withLastname(lastName);
+
+      if (phones.length == 3) {
+        contact.withHomephone(phones[0]).withMobilephone(phones[1]).withWorkphone(phones[2]);
+      } else if (phones.length == 2) {
+        contact.withHomephone(phones[0]).withMobilephone(phones[1]);
+      } else if (phones.length == 1) {
+        contact.withHomephone(phones[0]);
+      }
+
       contacts.add(contact);
     }
     return contacts;
+  }
+
+  public void initContactModificationById(int id) {
+    wd.findElement(By.cssSelector(String.format("a[href='edit.php?id=%s']", id))).click();
+  }
+
+  public ContactDate infoFromEditForm(ContactDate contact) {
+    initContactModificationById(contact.getId());
+
+
+    String home = wd.findElement(By.name("home")).getAttribute("value");
+    String mobile = wd.findElement(By.name("mobile")).getAttribute("value");
+    String work = wd.findElement(By.name("work")).getAttribute("value");
+
+    wd.navigate().back();
+    return new ContactDate().withId(contact.getId()).withHomephone(home).withMobilephone(mobile)
+            .withWorkphone(work);
   }
 }

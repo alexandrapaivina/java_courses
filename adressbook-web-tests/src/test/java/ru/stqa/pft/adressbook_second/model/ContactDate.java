@@ -7,20 +7,23 @@ public class ContactDate {
   private int id = Integer.MAX_VALUE;
 
 
-  private String firstname;
-  private String middlename;
-  private String lastname;
+  private String firstName;
+  private String middleName;
+  private String lastName;
   private String adress;
-  private String mobilephone;
+  private String mobilePhone;
+  private String workPhone;
+  private String homePhone;
   private String email;
   private String group;
+
 
   @Override
   public String toString() {
     return "ContactDate{" +
             "id=" + id +
-            ", firstname='" + firstname + '\'' +
-            ", lastname='" + lastname + '\'' +
+            ", firstname='" + firstName + '\'' +
+            ", lastname='" + lastName + '\'' +
             '}';
   }
 
@@ -30,33 +33,33 @@ public class ContactDate {
     if (o == null || getClass() != o.getClass()) return false;
     ContactDate that = (ContactDate) o;
     return id == that.id &&
-            Objects.equals(firstname, that.firstname) &&
-            Objects.equals(lastname, that.lastname);
+            Objects.equals(firstName, that.firstName) &&
+            Objects.equals(lastName, that.lastName);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, firstname, lastname);
+    return Objects.hash(id, firstName, lastName);
   }
 
-  public String getFirstname() {
-    return firstname;
+  public String getFirstName() {
+    return firstName;
   }
 
-  public String getMiddlename() {
-    return middlename;
+  public String getMiddleName() {
+    return middleName;
   }
 
-  public String getLastname() {
-    return lastname;
+  public String getLastName() {
+    return lastName;
   }
 
   public String getAdress() {
     return adress;
   }
 
-  public String getMobilephone() {
-    return mobilephone;
+  public String getMobilePhone() {
+    return mobilePhone;
   }
 
   public String getEmail() {
@@ -71,18 +74,36 @@ public class ContactDate {
     return id;
   }
 
+  public String getWorkPhone() {
+    return workPhone;
+  }
+
+  public String getHomePhone() {
+    return homePhone;
+  }
+
+  public ContactDate withWorkphone(String workphone) {
+    this.workPhone = workphone;
+    return this;
+  }
+
+  public ContactDate withHomephone(String homephone) {
+    this.homePhone = homephone;
+    return this;
+  }
+
   public ContactDate withFirstname(String firstname) {
-    this.firstname = firstname;
+    this.firstName = firstname;
     return this;
   }
 
   public ContactDate withMiddlename(String middlename) {
-    this.middlename = middlename;
+    this.middleName = middlename;
     return this;
   }
 
   public ContactDate withLastname(String lastname) {
-    this.lastname = lastname;
+    this.lastName = lastname;
     return this;
   }
 
@@ -92,7 +113,7 @@ public class ContactDate {
   }
 
   public ContactDate withMobilephone(String mobilephone) {
-    this.mobilephone = mobilephone;
+    this.mobilePhone = mobilephone;
     return this;
   }
 

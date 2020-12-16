@@ -22,9 +22,20 @@ public class GroupCreateTests extends TestBase {
     Groups before = app.group().all();
     GroupDate group = new GroupDate().withName("nameGroup11");
     app.group().create(group);
+    assertThat(app.group().getGroupCount(), equalTo(before.size() + 1));
     Groups after = app.group().all();
     assertThat(after, equalTo(before.withAdded(
             group.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
-    assertThat(after.size(), equalTo(before.size() + 1));
+  }
+
+  @Test
+  public void testBadGroupCreation() {
+    app.goTo().groupPage();
+    Groups before = app.group().all();
+    GroupDate group = new GroupDate().withName("nameGroup11'");
+    app.group().create(group);
+    assertThat(app.group().getGroupCount(), equalTo(before.size()));
+    Groups after = app.group().all();
+    assertThat(after, equalTo(before));
   }
 }
