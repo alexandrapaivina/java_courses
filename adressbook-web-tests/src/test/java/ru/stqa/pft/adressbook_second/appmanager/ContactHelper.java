@@ -11,6 +11,7 @@ import ru.stqa.pft.adressbook_second.model.Contacts;
 import java.util.List;
 
 import static org.openqa.selenium.By.name;
+import static org.openqa.selenium.By.partialLinkText;
 
 public class ContactHelper extends HelperBase {
 
@@ -99,16 +100,13 @@ public class ContactHelper extends HelperBase {
       int id = Integer.parseInt(element.findElement(By.cssSelector("input")).getAttribute("value"));
       String firstName = element.findElement(By.cssSelector("td:nth-of-type(3)")).getText();
       String lastName = element.findElement(By.cssSelector("td:nth-of-type(2)")).getText();
-      String[] phones = element.findElement(By.cssSelector("td:nth-of-type(6)")).getText().split("\n");
-      ContactDate contact = new ContactDate().withId(id).withFirstname(firstName).withLastname(lastName);
+      String allPhones = element.findElement(By.cssSelector("td:nth-of-type(6)")).getText();
+      String allEmail = element.findElement(By.cssSelector("td:nth-of-type(5)")).getText();
+      String adress = element.findElement(By.cssSelector("td:nth-of-type(4)")).getText();
+      ContactDate contact = new ContactDate().withId(id).withFirstname(firstName).withLastname(lastName)
+              .withAllPhones(allPhones).withAllEmail(allEmail).withAdress(adress);
 
-      if (phones.length == 3) {
-        contact.withHomephone(phones[0]).withMobilephone(phones[1]).withWorkphone(phones[2]);
-      } else if (phones.length == 2) {
-        contact.withHomephone(phones[0]).withMobilephone(phones[1]);
-      } else if (phones.length == 1) {
-        contact.withHomephone(phones[0]);
-      }
+
 
       contacts.add(contact);
     }
@@ -126,9 +124,13 @@ public class ContactHelper extends HelperBase {
     String home = wd.findElement(By.name("home")).getAttribute("value");
     String mobile = wd.findElement(By.name("mobile")).getAttribute("value");
     String work = wd.findElement(By.name("work")).getAttribute("value");
+    String email = wd.findElement(By.name("email")).getAttribute("value");
+    String email2 = wd.findElement(By.name("email2")).getAttribute("value");
+    String email3 = wd.findElement(By.name("email3")).getAttribute("value");
+    String adress = wd.findElement(By.name("address")).getAttribute("value");
 
     wd.navigate().back();
     return new ContactDate().withId(contact.getId()).withHomephone(home).withMobilephone(mobile)
-            .withWorkphone(work);
+            .withWorkphone(work).withEmail(email).withEmail2(email2).withEmail3(email3).withAdress(adress);
   }
 }

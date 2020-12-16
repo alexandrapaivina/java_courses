@@ -15,8 +15,11 @@ public class ContactDate {
   private String workPhone;
   private String homePhone;
   private String email;
+  private String email2;
+  private String email3;
   private String group;
-
+  private String allPhones;
+  private String allEmail;
 
   @Override
   public String toString() {
@@ -82,6 +85,22 @@ public class ContactDate {
     return homePhone;
   }
 
+  public String getAllPhones() {
+    return allPhones;
+  }
+
+  public String getEmail2() {
+    return email2;
+  }
+
+  public String getEmail3() {
+    return email3;
+  }
+
+  public String getAllEmail() {
+    return allEmail;
+  }
+
   public ContactDate withWorkphone(String workphone) {
     this.workPhone = workphone;
     return this;
@@ -129,6 +148,27 @@ public class ContactDate {
 
   public ContactDate withId(int id) {
     this.id = id;
+    return this;
+  }
+
+  public ContactDate withAllPhones(String allPhones) {
+    this.allPhones = allPhones;
+    return this;
+  }
+
+  public ContactDate withEmail2(String email2) {
+    this.email2 = email2;
+    return this;
+  }
+
+
+  public ContactDate withEmail3(String email3) {
+    this.email3 = email3;
+    return this;
+  }
+
+  public ContactDate withAllEmail(String allEmail) {
+    this.allEmail = allEmail;
     return this;
   }
 }
