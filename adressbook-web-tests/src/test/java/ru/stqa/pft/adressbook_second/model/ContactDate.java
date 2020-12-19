@@ -1,23 +1,30 @@
 package ru.stqa.pft.adressbook_second.model;
 
+import com.google.gson.annotations.Expose;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 import java.io.File;
 import java.util.Objects;
 
 public class ContactDate {
 
   private int id = Integer.MAX_VALUE;
-
-
+  @Expose
   private String firstName;
+  @Expose
   private String middleName;
+  @Expose
   private String lastName;
   private String adress;
+  @Expose
   private String mobilePhone;
   private String workPhone;
   private String homePhone;
+  @Expose
   private String email;
   private String email2;
   private String email3;
+  @Expose
   private String group;
   private String allPhones;
   private String allEmail;
@@ -183,7 +190,6 @@ public class ContactDate {
     this.photo = photo;
     return this;
   }
-
 
 
 }
