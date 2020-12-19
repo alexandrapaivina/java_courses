@@ -7,6 +7,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.File;
+
 
 public class HelperBase {
   protected WebDriver wd;
@@ -29,6 +31,12 @@ public class HelperBase {
         wd.findElement(locator).clear();
         wd.findElement(locator).sendKeys(text);
       }
+    }
+  }
+
+  protected void attach(By locator, File file) {
+    if (file != null) {
+        wd.findElement(locator).sendKeys(file.getAbsolutePath());
     }
   }
 

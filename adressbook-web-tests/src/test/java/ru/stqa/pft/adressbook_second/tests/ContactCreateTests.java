@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 import ru.stqa.pft.adressbook_second.model.ContactDate;
 import ru.stqa.pft.adressbook_second.model.Contacts;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -21,9 +22,10 @@ public class ContactCreateTests extends TestBase {
   public void testContactCreation() throws InterruptedException {
     app.goTo().homePage();
     Contacts before = app.contact().all();
+    File photo = new File("src/test/java/ru/stqa/pft/adressbook_second/resources/unnamed.jpg");
     ContactDate contact = new ContactDate().withFirstname("Test nameHHH").withMiddlename("Middle name").withLastname("Last name")
             .withAdress("Krasnodar").withEmail("89998887766").withEmail("test@test.ru").withGroup("nameGroup12").withHomephone("777")
-            .withWorkphone("999").withMobilephone("333");
+            .withWorkphone("999").withMobilephone("333").withPhoto(photo);
     app.contact().create(contact);
     app.goTo().homePage();
     Thread.sleep(1000);

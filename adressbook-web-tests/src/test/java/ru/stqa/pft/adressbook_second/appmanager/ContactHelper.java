@@ -55,6 +55,7 @@ public class ContactHelper extends HelperBase {
     type(name("email"), contactDate.getEmail());
     type(name("work"), contactDate.getWorkPhone());
     type(name("home"), contactDate.getHomePhone());
+    attach(name("photo"), contactDate.getPhoto());
 
     if (creation) {
       new Select(wd.findElement(name("new_group"))).selectByVisibleText(contactDate.getGroup());
@@ -102,9 +103,9 @@ public class ContactHelper extends HelperBase {
       String lastName = element.findElement(By.cssSelector("td:nth-of-type(2)")).getText();
       String allPhones = element.findElement(By.cssSelector("td:nth-of-type(6)")).getText();
       String allEmail = element.findElement(By.cssSelector("td:nth-of-type(5)")).getText();
-      String adress = element.findElement(By.cssSelector("td:nth-of-type(4)")).getText();
+      String address = element.findElement(By.cssSelector("td:nth-of-type(4)")).getText();
       ContactDate contact = new ContactDate().withId(id).withFirstname(firstName).withLastname(lastName)
-              .withAllPhones(allPhones).withAllEmail(allEmail).withAdress(adress);
+              .withAllPhones(allPhones).withAllEmail(allEmail).withAdress(address);
 
 
 
