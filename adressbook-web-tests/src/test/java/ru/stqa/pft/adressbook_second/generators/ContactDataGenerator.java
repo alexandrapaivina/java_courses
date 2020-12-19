@@ -49,9 +49,9 @@ public class ContactDataGenerator {
   private void saveAsJson(List<ContactDate> contacts, File file) throws IOException {
     Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
     String json = gson.toJson(contacts);
-    Writer writer = new FileWriter(file);
-    writer.write(json);
-    writer.close();
+    try (Writer writer = new FileWriter(file)) {
+      writer.write(json);
+    }
   }
 
   private List<ContactDate> generateContacts(int count) {
