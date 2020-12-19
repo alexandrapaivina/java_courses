@@ -18,14 +18,32 @@ task testGroups(type: Test) {
     useTestNG {
         suites '/src/test/java/ru/stqa/pft/adressbook_second/resources/testng-groups.xml'
     }
+    if(project.hasProperty('browser')) {
+        systemProperty 'browser', "${browser}"
+    }
+    if(project.hasProperty('target')) {
+        systemProperty 'target', "${target}"
+    }
 }
 
 task testContacts(type: Test) {
     useTestNG {
         suites '/src/test/java/ru/stqa/pft/adressbook_second/resources/testng-contacts.xml'
     }
+    if(project.hasProperty('browser')) {
+        systemProperty 'browser', "${browser}"
+    }
+    if(project.hasProperty('target')) {
+        systemProperty 'target', "${target}"
+    }
 }
 
 test {
     useTestNG()
+    if(project.hasProperty('browser')) {
+        systemProperty 'browser', "${browser}"
+    }
+    if(project.hasProperty('target')) {
+        systemProperty 'target', "${target}"
+    }
 }
