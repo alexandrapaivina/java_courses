@@ -72,30 +72,6 @@ public class ContactDate {
   @Type(type = "text")
   private String photo;
 
-  @Override
-  public String toString() {
-    return "ContactDate{" +
-            "id=" + id +
-            ", firstname='" + firstName + '\'' +
-            ", lastname='" + lastName + '\'' +
-            '}';
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    ContactDate that = (ContactDate) o;
-    return id == that.id &&
-            Objects.equals(firstName, that.firstName) &&
-            Objects.equals(lastName, that.lastName);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, firstName, lastName);
-  }
-
   public String getFirstName() {
     return firstName;
   }
@@ -118,6 +94,36 @@ public class ContactDate {
 
   public String getEmail() {
     return email;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    ContactDate that = (ContactDate) o;
+    return id == that.id &&
+            Objects.equals(firstName, that.firstName) &&
+            Objects.equals(middleName, that.middleName) &&
+            Objects.equals(lastName, that.lastName) &&
+            Objects.equals(mobilePhone, that.mobilePhone) &&
+            Objects.equals(email, that.email);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, firstName, middleName, lastName, mobilePhone, email);
+  }
+
+  @Override
+  public String toString() {
+    return "ContactDate{" +
+            "id=" + id +
+            ", firstName='" + firstName + '\'' +
+            ", middleName='" + middleName + '\'' +
+            ", lastName='" + lastName + '\'' +
+            ", adress='" + adress + '\'' +
+            ", mobilePhone='" + mobilePhone + '\'' +
+            '}';
   }
 
   public String getGroup() {

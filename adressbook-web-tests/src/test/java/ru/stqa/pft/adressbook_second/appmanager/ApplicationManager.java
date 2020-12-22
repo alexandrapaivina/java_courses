@@ -20,6 +20,7 @@ public class ApplicationManager {
   private NavigationHelper navigationHelper;
   private GroupHelper groupHelper;
   private ContactHelper contactHelper;
+  private DbHelper dbHelper;
   String browser;
 
   public ApplicationManager(String browser) throws IOException {
@@ -29,6 +30,9 @@ public class ApplicationManager {
 
   public void init() throws InterruptedException, IOException {
     String target = System.getProperty("target", "local");
+
+    dbHelper = new DbHelper();
+
     properties.load(new FileReader(new File(String.format("/Users/dev/java_courses/adressbook-web-tests/src/test/resources/%s.properties", target))));
     if (browser.equals(BrowserType.CHROME)) {
       wd = new ChromeDriver();
@@ -62,5 +66,9 @@ public class ApplicationManager {
 
   public ContactHelper contact() {
     return contactHelper;
+  }
+
+  public DbHelper db() {
+    return dbHelper;
   }
 }

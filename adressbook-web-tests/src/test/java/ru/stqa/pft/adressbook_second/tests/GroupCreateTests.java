@@ -25,7 +25,7 @@ public class GroupCreateTests extends TestBase {
   @DataProvider
   public Iterator<Object[]> validGroupsFromXml() throws IOException {
     List<Object[]> list = new ArrayList<Object[]>();
-    try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/java/ru/stqa/pft/adressbook_second/resources/groups.xml")))) {
+    try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/java/resources/groups.xml")))) {
       String xml = "";
       String line = reader.readLine();
       while (line != null) {
@@ -42,7 +42,7 @@ public class GroupCreateTests extends TestBase {
   @DataProvider
   public Iterator<Object[]> validGroupsFromJson() throws IOException {
     List<Object[]> list = new ArrayList<Object[]>();
-    try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/java/ru/stqa/pft/adressbook_second/resources/groups.json")))) {
+    try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groups.json")))) {
       String json = "";
       String line = reader.readLine();
       while (line != null) {
@@ -60,10 +60,10 @@ public class GroupCreateTests extends TestBase {
   @Test(dataProvider = "validGroupsFromJson")
   public void testGroupCreation(GroupDate group) {
     app.goTo().groupPage();
-    Groups before = app.group().all();
+    Groups before = app.db().groups();
     app.group().create(group);
     assertThat(app.group().getGroupCount(), equalTo(before.size() + 1));
-    Groups after = app.group().all();
+    Groups after = app.db().groups();
     assertThat(after, equalTo(before.withAdded(
             group.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
   }
@@ -71,11 +71,11 @@ public class GroupCreateTests extends TestBase {
   @Test
   public void testBadGroupCreation() {
     app.goTo().groupPage();
-    Groups before = app.group().all();
+    Groups before = app.db().groups();
     GroupDate group = new GroupDate().withName("nameGroup11'");
     app.group().create(group);
     assertThat(app.group().getGroupCount(), equalTo(before.size()));
-    Groups after = app.group().all();
+    Groups after = app.db().groups();
     assertThat(after, equalTo(before));
   }
 }

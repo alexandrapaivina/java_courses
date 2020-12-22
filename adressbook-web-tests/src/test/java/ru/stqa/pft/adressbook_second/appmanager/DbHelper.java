@@ -1,61 +1,46 @@
-package ru.stqa.pft.adressbook_second.tests;
+package ru.stqa.pft.adressbook_second.appmanager;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import ru.stqa.pft.adressbook.model.Contact;
 import ru.stqa.pft.adressbook_second.model.ContactDate;
+import ru.stqa.pft.adressbook_second.model.Contacts;
 import ru.stqa.pft.adressbook_second.model.GroupDate;
+import ru.stqa.pft.adressbook_second.model.Groups;
 
 import java.util.List;
 
-public class HbConnectionTest {
+public class DbHelper {
 
-  private SessionFactory sessionFactory;
+  private final SessionFactory sessionFactory;
 
-  @BeforeClass
-  protected void setUp() throws Exception {
+  public DbHelper() {
     // A SessionFactory is set up once for an application!
     final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
             .configure() // configures settings from hibernate.cfg.xml
             .build();
-    try {
       sessionFactory = new MetadataSources( registry ).buildMetadata().buildSessionFactory();
-    }
-    catch (Exception e) {
-      e.printStackTrace();
-      // The registry would be destroyed by the SessionFactory, but we had trouble building the SessionFactory
-      // so destroy it manually.
-      StandardServiceRegistryBuilder.destroy( registry );
-    }
   }
 
-
-  @Test
-  public void testHbConnectionGroups() {
+  public Groups groups(){
     Session session = sessionFactory.openSession();
     session.beginTransaction();
     List<GroupDate> result = session.createQuery( "from GroupDate" ).list();
-    for ( GroupDate group : result ) {
-      System.out.println(group);
-    }
     session.getTransaction().commit();
     session.close();
+    return new Groups(result);
   }
 
-  @Test
-  public void testHbConnectionContact() {
+  public Contacts contacts(){
     Session session = sessionFactory.openSession();
     session.beginTransaction();
     List<ContactDate> result = session.createQuery( "from ContactDate where deprecated = '0000-00-00'" ).list();
-    for ( ContactDate contact : result ) {
-      System.out.println(contact);
-    }
     session.getTransaction().commit();
     session.close();
+    return new Contacts(result);
   }
 
 }
