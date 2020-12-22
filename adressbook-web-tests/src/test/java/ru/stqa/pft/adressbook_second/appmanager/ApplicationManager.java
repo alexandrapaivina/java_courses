@@ -29,7 +29,7 @@ public class ApplicationManager {
 
   public void init() throws InterruptedException, IOException {
     String target = System.getProperty("target", "local");
-    properties.load(new FileReader(new File(String.format("/Users/dev/java_courses/adressbook-web-tests/src/test/java/ru/stqa/pft/adressbook_second/resources/%s.properties", target))));
+    properties.load(new FileReader(new File(String.format("/Users/dev/java_courses/adressbook-web-tests/src/test/resources/%s.properties", target))));
     if (browser.equals(BrowserType.CHROME)) {
       wd = new ChromeDriver();
     } else if (browser.equals(BrowserType.FIREFOX)) {
