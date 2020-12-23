@@ -9,9 +9,18 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import ru.stqa.pft.adressbook_second.appmanager.ApplicationManager;
+import ru.stqa.pft.adressbook_second.model.ContactDate;
+import ru.stqa.pft.adressbook_second.model.Contacts;
+import ru.stqa.pft.adressbook_second.model.GroupDate;
+import ru.stqa.pft.adressbook_second.model.Groups;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.stream.Collectors;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
 public class TestBase {
 
@@ -37,6 +46,28 @@ public class TestBase {
   @AfterSuite(alwaysRun = true)
   public void tearDown() {
     app.stop();
+  }
+
+  public void verifyGroupListInUI() {
+    //System.setProperty("verifyUI","true");
+    if( Boolean.getBoolean("verifyUI")) {
+      Groups dbGroups = app.db().groups();
+      Groups uiGroups = app.group().all();
+      assertThat(uiGroups, equalTo(dbGroups.stream().map((g) -> new GroupDate()
+              .withId(g.getId()).withName(g.getName()))
+              .collect(Collectors.toSet())));
+    }
+  }
+
+  public void verifyContactListInUI() {
+    System.setProperty("verifyUI","true");
+    if( Boolean.getBoolean("verifyUI")) {
+      Contacts dbContacts = app.db().contacts();
+      Contacts uiContacts = app.contact().all();
+      assertThat(uiContacts, equalTo(dbContacts.stream().map((c) -> new ContactDate()
+              .withId(c.getId()).withFirstname(c.getFirstName()).withLastname(c.getLastName()))
+              .collect(Collectors.toSet())));
+    }
   }
 
 /*
