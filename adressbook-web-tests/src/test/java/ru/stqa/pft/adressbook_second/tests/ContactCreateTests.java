@@ -6,6 +6,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.stqa.pft.adressbook_second.model.ContactDate;
 import ru.stqa.pft.adressbook_second.model.Contacts;
+import ru.stqa.pft.adressbook_second.model.Groups;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -52,6 +53,7 @@ public class ContactCreateTests extends TestBase {
     assertThat(after, equalTo(before.withAdded(
             contact.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
     assertThat(after.size(), equalTo(before.size() + 1));
-    verifyContactListInUI();
+
+
   }
 }

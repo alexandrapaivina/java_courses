@@ -6,15 +6,20 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.File;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "addressbook")
 public class ContactDate {
 
   @Id
-  @Column(name = "id")
-  private int id = Integer.MAX_VALUE;
+  @Column(name = "id", nullable = false)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
 
   @Expose
   @Column(name = "firstname")
@@ -57,10 +62,6 @@ public class ContactDate {
   @Type(type = "text")
   private String email3;
 
-  @Expose
-  @Transient
-  private String group;
-
   @Transient
   private String allPhones;
 
@@ -71,6 +72,38 @@ public class ContactDate {
   @Column(name = "photo")
   @Type(type = "text")
   private String photo;
+
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(name = "address_in_groups", joinColumns = @JoinColumn(name = "id")
+          , inverseJoinColumns = @JoinColumn(name = "group_id"))
+  private Set<GroupDate> groups = new HashSet<GroupDate>();
+
+  @Override
+  public String toString() {
+    return "ContactDate{" +
+            "id=" + id +
+            ", firstName='" + firstName + '\'' +
+            ", groups=" + groups +
+            '}';
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    ContactDate that = (ContactDate) o;
+    return id == that.id &&
+            Objects.equals(firstName, that.firstName) &&
+            Objects.equals(middleName, that.middleName) &&
+            Objects.equals(lastName, that.lastName) &&
+            Objects.equals(mobilePhone, that.mobilePhone) &&
+            Objects.equals(groups, that.groups);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, firstName, middleName, lastName, mobilePhone, groups);
+  }
 
   public String getFirstName() {
     return firstName;
@@ -94,40 +127,6 @@ public class ContactDate {
 
   public String getEmail() {
     return email;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    ContactDate that = (ContactDate) o;
-    return id == that.id &&
-            Objects.equals(firstName, that.firstName) &&
-            Objects.equals(middleName, that.middleName) &&
-            Objects.equals(lastName, that.lastName) &&
-            Objects.equals(mobilePhone, that.mobilePhone) &&
-            Objects.equals(email, that.email);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, firstName, middleName, lastName, mobilePhone, email);
-  }
-
-  @Override
-  public String toString() {
-    return "ContactDate{" +
-            "id=" + id +
-            ", firstName='" + firstName + '\'' +
-            ", middleName='" + middleName + '\'' +
-            ", lastName='" + lastName + '\'' +
-            ", adress='" + adress + '\'' +
-            ", mobilePhone='" + mobilePhone + '\'' +
-            '}';
-  }
-
-  public String getGroup() {
-    return group;
   }
 
   public int getId() {
@@ -203,9 +202,8 @@ public class ContactDate {
     return this;
   }
 
-  public ContactDate withGroup(String group) {
-    this.group = group;
-    return this;
+  public Set<GroupDate> getGroups() {
+    return new Groups(groups);
   }
 
   public ContactDate withId(int id) {
@@ -236,6 +234,16 @@ public class ContactDate {
 
   public ContactDate withPhoto(File photo) {
     this.photo = photo.getPath();
+    return this;
+  }
+
+  public ContactDate inGroup(GroupDate group){
+    groups.add(group);
+    return this;
+  }
+
+  public ContactDate deleteGroup(GroupDate group){
+    groups.remove(group);
     return this;
   }
 

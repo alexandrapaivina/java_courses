@@ -7,17 +7,21 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.adressbook_second.model.ContactDate;
 import ru.stqa.pft.adressbook_second.model.Contacts;
+import ru.stqa.pft.adressbook_second.model.GroupDate;
+import ru.stqa.pft.adressbook_second.model.Groups;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.openqa.selenium.By.name;
-import static org.openqa.selenium.By.partialLinkText;
 
 public class ContactHelper extends HelperBase {
 
   public ContactHelper(WebDriver wd) {
     super(wd);
   }
+
+  public ApplicationManager app;
 
   ///Основные действия с группами
   public void create(ContactDate contact) {
@@ -58,7 +62,10 @@ public class ContactHelper extends HelperBase {
     attach(name("photo"), contactDate.getPhoto());
 
     if (creation) {
-      new Select(wd.findElement(name("new_group"))).selectByVisibleText(contactDate.getGroup());
+      if(contactDate.getGroups().size() > 0) {
+        Assert.assertTrue(contactDate.getGroups().size() == 1);
+        new Select(wd.findElement(name("new_group"))).selectByVisibleText(contactDate.getGroups().iterator().next().getName());
+      }
     } else Assert.assertFalse(isElementPresent(By.name("new_group")));
   }
 
@@ -106,9 +113,6 @@ public class ContactHelper extends HelperBase {
       String address = element.findElement(By.cssSelector("td:nth-of-type(4)")).getText();
       ContactDate contact = new ContactDate().withId(id).withFirstname(firstName).withLastname(lastName)
               .withAllPhones(allPhones).withAllEmail(allEmail).withAdress(address);
-
-
-
       contacts.add(contact);
     }
     return contacts;
@@ -133,5 +137,33 @@ public class ContactHelper extends HelperBase {
     wd.navigate().back();
     return new ContactDate().withId(contact.getId()).withHomephone(home).withMobilephone(mobile)
             .withWorkphone(work).withEmail(email).withEmail2(email2).withEmail3(email3).withAdress(adress);
+  }
+
+  public void addInGroup(ContactDate contact, GroupDate group) {
+    selectContactById(contact.getId());
+    selectAddGroupById(group.getId());
+    initAddToGroup();
+  }
+
+  private void initAddToGroup() {
+    click(name("add"));
+  }
+
+  private void selectAddGroupById(int index) {
+    wd.findElement(By.cssSelector("select[name = 'to_group'] [value='" + index + "']")).click();
+  }
+
+  private void selectGroupById(int index) {
+    wd.findElement(By.cssSelector("select[name = 'group'] [value='" + index + "']")).click();
+  }
+
+  public void deleteFromGroup(ContactDate contact, GroupDate group) {
+    selectGroupById(group.getId());
+    selectContactById(contact.getId());
+    initDeleteFromGroup();
+  }
+
+  private void initDeleteFromGroup() {
+    click(name("remove"));
   }
 }

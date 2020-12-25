@@ -10,10 +10,11 @@ public class NavigationHelper extends HelperBase {
   }
 
   public void homePage() {
-    if (isElementPresent(By.id("maintable"))) {
+    /*if (isElementPresent(By.id("maintable"))) {
       return;
     }
-    click(By.cssSelector("a[href='./']"));
+    click(By.cssSelector("a[href='./']"));*/
+    wd.get("http://localhost/addressbook/index.php");
   }
 
   public void groupPage() {
@@ -23,5 +24,9 @@ public class NavigationHelper extends HelperBase {
       return;
     }
     click(By.linkText("groups"));
+  }
+
+  public void refreshPage() {
+    wd.navigate().refresh();
   }
 }

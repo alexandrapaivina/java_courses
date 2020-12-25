@@ -26,7 +26,7 @@ public class TestBase {
 
   //Logger logger = LoggerFactory.getLogger(TestBase.class);
 
-  protected static  ApplicationManager app;
+  protected static ApplicationManager app;
 
   static {
     try {
@@ -50,7 +50,7 @@ public class TestBase {
 
   public void verifyGroupListInUI() {
     //System.setProperty("verifyUI","true");
-    if( Boolean.getBoolean("verifyUI")) {
+    if (Boolean.getBoolean("verifyUI")) {
       Groups dbGroups = app.db().groups();
       Groups uiGroups = app.group().all();
       assertThat(uiGroups, equalTo(dbGroups.stream().map((g) -> new GroupDate()
@@ -60,8 +60,8 @@ public class TestBase {
   }
 
   public void verifyContactListInUI() {
-    System.setProperty("verifyUI","true");
-    if( Boolean.getBoolean("verifyUI")) {
+    System.setProperty("verifyUI", "true");
+    if (Boolean.getBoolean("verifyUI")) {
       Contacts dbContacts = app.db().contacts();
       Contacts uiContacts = app.contact().all();
       assertThat(uiContacts, equalTo(dbContacts.stream().map((c) -> new ContactDate()

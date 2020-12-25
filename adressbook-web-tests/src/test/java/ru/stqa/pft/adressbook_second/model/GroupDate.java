@@ -1,15 +1,18 @@
 package ru.stqa.pft.adressbook_second.model;
 
 import com.google.gson.annotations.Expose;
+import com.sun.istack.NotNull;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.hibernate.annotations.ResultCheckStyle;
+import org.hibernate.annotations.SQLInsert;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.time.DateTimeException;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @XStreamAlias("group")
 @Entity
@@ -17,12 +20,26 @@ import java.util.Objects;
 public class GroupDate {
   @XStreamOmitField
   @Id
-  @Column(name = "group_id")
+  @Column(name = "group_id", nullable = false)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id = Integer.MAX_VALUE;
 
   @Expose
-  @Column(name = "group_name")
+  @Column(name = "group_name", nullable = false)
   private String name;
+
+  @ManyToMany(mappedBy = "groups")
+  private Set<ContactDate> contacts = new HashSet<ContactDate>();
+
+  @Expose
+  @Column(name = "group_header", nullable = false)
+  @Type(type =  "text")
+  private String header;
+
+  @Expose
+  @Column(name = "group_footer", nullable = false)
+  @Type(type =  "text")
+  private String footer;
 
   @Override
   public boolean equals(Object o) {
@@ -39,16 +56,6 @@ public class GroupDate {
   public int hashCode() {
     return Objects.hash(id, name, header, footer);
   }
-
-  @Expose
-  @Column(name = "group_header")
-  @Type(type =  "text")
-  private String header;
-
-  @Expose
-  @Column(name = "group_footer")
-  @Type(type =  "text")
-  private String footer;
 
   @Override
   public String toString() {
@@ -92,5 +99,9 @@ public class GroupDate {
   public GroupDate withFooter(String footer) {
     this.footer = footer;
     return this;
+  }
+
+  public Set<ContactDate> getContacts() {
+    return new Contacts(contacts);
   }
 }

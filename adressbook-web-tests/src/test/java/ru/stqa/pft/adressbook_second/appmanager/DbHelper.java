@@ -2,6 +2,7 @@ package ru.stqa.pft.adressbook_second.appmanager;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -37,10 +38,26 @@ public class DbHelper {
   public Contacts contacts(){
     Session session = sessionFactory.openSession();
     session.beginTransaction();
-    List<ContactDate> result = session.createQuery( "from ContactDate where deprecated = '0000-00-00'" ).list();
+    List<ContactDate> result = session.createQuery( "from ContactDate where deprecated = null" ).list();
     session.getTransaction().commit();
     session.close();
     return new Contacts(result);
+  }
+
+  public void addGroup(GroupDate group){
+    Session session = sessionFactory.openSession();
+    session.beginTransaction();
+    session.save(group);
+    session.getTransaction().commit();
+    session.close();
+  }
+
+  public void addContact(ContactDate contact){
+    Session session = sessionFactory.openSession();
+    session.beginTransaction();
+    session.save(contact);
+    session.getTransaction().commit();
+    session.close();
   }
 
 }

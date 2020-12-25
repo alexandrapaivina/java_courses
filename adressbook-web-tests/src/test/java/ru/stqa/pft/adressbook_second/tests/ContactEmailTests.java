@@ -9,10 +9,10 @@ import java.util.stream.Collectors;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class ContactEmailTests extends TestBase{
+public class ContactEmailTests extends TestBase {
 
   @Test
-  public void testContactEmail(){
+  public void testContactEmail() {
     app.goTo().homePage();
     ContactDate contact = app.contact().all().iterator().next();
     ContactDate contactInfoFromEditForm = app.contact().infoFromEditForm(contact);
@@ -21,7 +21,7 @@ public class ContactEmailTests extends TestBase{
 
   private String mergeEmail(ContactDate contact) {
     return Arrays.asList(contact.getEmail(), contact.getEmail2(), contact.getEmail3())
-            .stream().filter((s) -> ! s.equals("")).collect(Collectors.joining("\n"));
+            .stream().filter((s) -> !s.equals("")).collect(Collectors.joining("\n"));
   }
 
 
